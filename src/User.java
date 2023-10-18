@@ -4,11 +4,16 @@ import java.util.ArrayList;
 public class User implements Observer{
     private String name;
     private ArrayList<User> followers;
+    private Post post;
 
     public User(String name) {
         this.name = name;
         this.followers = new ArrayList<>();
     };
+
+    private String getName() {
+        return this.name;
+    }
 
     public void addFollower(User user) {
         followers.add(user);
@@ -17,15 +22,21 @@ public class User implements Observer{
     public void removeFollower(User user) {
         followers.remove(user);
     }
-    
-    public void createPost(String subject, User author) {
-        var post = new Post(subject, author);
-        notifyObserver(author);
+
+    public void createPost(String subject) {
+        post = new Post(subject);
+        notifyObserver();
     }
 
     @Override
-    public void notifyObserver(User author) {
-        System.out.println();
+    public void notifyObserver() {
+        for(User followers : followers){
+            System.out.println("----------");
+            System.out.println("Hey " + followers.getName());
+            System.out.println("there's a new post from " + this.name);
+            System.out.println(this.name + " says: " + post.getSubject());
+        }
+
     }
 
 
